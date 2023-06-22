@@ -42,13 +42,6 @@ jobs:
 
       - name: Build wheels
         uses: joerick/cibuildwheel@v2.13.1
-        if: matrix.platform != 'manylinux_aarch64'
-
-      - name: Build wheels (emulated)
-        uses: joerick/cibuildwheel@v2.13.1
-        if: matrix.platform == 'manylinux_aarch64'
-        env:
-          CIBW_ARCHS_LINUX: aarch64
 
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
@@ -63,41 +56,6 @@ jobs:
         with:
           name: rtd-wheel
           path: ./wheelhouse/pikepdf-*-cp311-*.manylinux2014_x86_64.whl
-          if-no-files-found: error
-
-  wheels_linux_arm:
-    name: self-hosted - ${{ matrix.platform }}
-    runs-on: self-hosted
-    env:
-      CIBW_BUILD: "*-${{ matrix.platform }}"
-    strategy:
-      matrix:
-        platform: [manylinux_aarch64]
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: "0" # 0=all, needed for setuptools-scm to resolve version tags
-
-      # Custom cibuildwheel step since actions doesn't support self-hosted
-      - name: Build wheels
-        run: >
-          pipx run
-          --python /usr/bin/python3
-          --spec cibuildwheel==2.13.1
-          cibuildwheel
-          .
-          --output-dir wheelhouse
-          2>&1
-        shell: bash
-        env:
-          CIBW_ARCHS_LINUX: aarch64
-
-      - name: Upload built wheels
-        uses: actions/upload-artifact@v3
-        with:
-          name: wheels
-          path: ./wheelhouse/*.whl
           if-no-files-found: error
 
   wheels_macos:
@@ -243,7 +201,7 @@ jobs:
           path: dist/*.tar.gz
 
   upload_pypi:
-    needs: [wheels_linux, wheels_linux_arm, wheels_macos, wheels_windows, sdist]
+    needs: [wheels_linux, wheels_macos, wheels_windows, sdist]
     runs-on: ubuntu-latest
     # upload to PyPI on every tag starting with 'v'
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/v')
