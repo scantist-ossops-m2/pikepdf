@@ -1,11 +1,6 @@
 macos_arm64_wheel_task:
   macos_instance:
     image: ghcr.io/cirruslabs/macos-monterey-xcode
-  env:
-    # Upload tokens have been encrypted via the CirrusCI interface:
-    # https://cirrus-ci.org/guide/writing-tasks/#encrypted-variables
-    # See `maint_tools/update_tracking_issue.py` for details on the permissions the token requires.
-    # BOT_GITHUB_TOKEN: ENCRYPTED[9b50205e2693f9e4ce9a3f0fcb897a259289062fda2f5a3b8aaa6c56d839e0854a15872f894a70fca337dd4787274e0f]
   matrix:
     - env:
         CIBW_BUILD: cp39-macosx_arm64
@@ -29,11 +24,6 @@ linux_arm64_wheel_task:
     platform: linux
     cpu: 4
     memory: 4G
-  env:
-    # Upload tokens have been encrypted via the CirrusCI interface:
-    # https://cirrus-ci.org/guide/writing-tasks/#encrypted-variables
-    # See `maint_tools/update_tracking_issue.py` for details on the permissions the token requires.
-    # BOT_GITHUB_TOKEN: ENCRYPTED[9b50205e2693f9e4ce9a3f0fcb897a259289062fda2f5a3b8aaa6c56d839e0854a15872f894a70fca337dd4787274e0f]
   matrix:
     - env:
         CIBW_BUILD: cp38-manylinux_aarch64
@@ -59,12 +49,6 @@ wheels_upload_task:
     image: continuumio/miniconda3:22.11.1
   # Artifacts are not uploaded on PRs
   only_if: $CIRRUS_PR == ""
-  env:
-    # Upload tokens have been encrypted via the CirrusCI interface:
-    # https://cirrus-ci.org/guide/writing-tasks/#encrypted-variables
-    SCIKIT_LEARN_NIGHTLY_UPLOAD_TOKEN: ENCRYPTED[9cf0529227577d503f2e19ef31cb690a2272cb243a217fb9a1ceda5cc608e8ccc292050fde9dca94cab766e1dd418519]
-    SCIKIT_LEARN_STAGING_UPLOAD_TOKEN: ENCRYPTED[8fade46af37fa645e57bd1ee21683337aa369ba56f6307ce13889f1e74df94e5bdd21d323baac21e332fd87b8949659a]
-    ARTIFACTS_PATH: wheelhouse
   upload_script: |
     conda install curl unzip -y
 
