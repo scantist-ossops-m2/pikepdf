@@ -18,8 +18,7 @@ macos_arm64_wheel_task:
 
   cibuildwheel_script:
     - brew install pipx
-    - pipx run --python /usr/bin/python3 --spec cibuildwheel==2.13.0
-    - cibuildwheel . --output-dir wheelhouse
+    - pipx run --python /usr/bin/python3 --spec cibuildwheel==2.13.0 cibuildwheel . --output-dir wheelhouse
 
   wheels_artifacts:
     path: "wheelhouse/*"
@@ -49,8 +48,7 @@ linux_arm64_wheel_task:
 
   cibuildwheel_script:
     - apt-get install -y python3 python-is-python3 pipx
-    - pipx run --python /usr/bin/python3 --spec cibuildwheel==2.13.0
-    - cibuildwheel . --output-dir wheelhouse
+    - pipx run --python /usr/bin/python3 --spec cibuildwheel==2.13.0 cibuildwheel . --output-dir wheelhouse
 
   wheels_artifacts:
     path: "wheelhouse/*"
