@@ -4,12 +4,8 @@
 name: Build and upload to PyPI
 
 on:
-  push:
-    branches-ignore:
-      - cirrus
-  pull_request:
-    branches-ignore:
-      - cirrus
+  push: {}
+  pull_request: {}
 
 # For musllinux support, see note in pyproject.toml
 
