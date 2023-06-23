@@ -61,7 +61,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.1
         with:
           ref: ${{ github.sha }}
-          check-regexp: '^macos arm64 Cirrus'
+          check-regexp: '^linux arm64 Cirrus'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 60
 
@@ -69,6 +69,14 @@ jobs:
         run: |
           curl -L https://api.cirrus-ci.com/v1/artifact/github/${{ github.repository }}/wheel_linux_arm/wheels.zip -o wheels.zip
           unzip wheels.zip
+
+      # - name: Wait for Cirrus
+      #   uses: getsentry/action-wait-for-cirrus@v1.0.0
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     ref: ${{ github.sha }}
+      #     check-name: linux arm64 Cirrus
+      #     timeout-minutes: 60
 
       - name: Upload built wheels
         uses: actions/upload-artifact@v3
