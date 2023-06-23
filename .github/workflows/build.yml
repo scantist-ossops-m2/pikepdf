@@ -61,7 +61,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.1
         with:
           ref: ${{ github.sha }}
-          check-name: "linux arm64 Cirrus"
+          check-regexp: '^macos arm64 Cirrus'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 60
 
@@ -108,7 +108,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.1
         with:
           ref: ${{ github.sha }}
-          check-name: 'macos arm64 Cirrus'
+          check-regexp: '^macos arm64 Cirrus'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 60
 
