@@ -61,13 +61,13 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.1
         with:
           ref: ${{ github.ref }}
-          check-name: 'cirrus_linux_arm64_wheel'
+          check-name: "linux arm64 Cirrus"
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 60
 
       - name: Download artifacts
         run: |
-          curl -L https://api.cirrus-ci.com/v1/artifact/github/${{ github.repository }}/macos_arm64_wheel/wheels.zip -o wheels.zip
+          curl -L https://api.cirrus-ci.com/v1/artifact/github/${{ github.repository }}/wheel_linux_arm/wheels.zip -o wheels.zip
           unzip wheels.zip
 
       - name: Upload built wheels
@@ -108,13 +108,13 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.1
         with:
           ref: ${{ github.ref }}
-          check-name: 'cirrus_macos_arm64_wheel'
+          check-name: 'macos arm64 Cirrus'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 60
 
       - name: Download artifacts
         run: |
-          curl -L https://api.cirrus-ci.com/v1/artifact/github/${{ github.repository }}/macos_arm64_wheel/wheels.zip -o wheels.zip
+          curl -L https://api.cirrus-ci.com/v1/artifact/github/${{ github.repository }}/wheel_macos_arm/wheels.zip -o wheels.zip
           unzip wheels.zip
 
       - name: Upload built wheels
