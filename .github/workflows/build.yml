@@ -58,6 +58,28 @@ jobs:
           path: ./wheelhouse/pikepdf-*-cp311-*.manylinux2014_x86_64.whl
           if-no-files-found: error
 
+  wheels_linux_arm:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Waiting for Cirrus CI
+        uses: lewagon/wait-on-check-action@v1.3.1
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'cirrus_linux_arm64_wheel'
+          wait-interval: 60
+
+      - name: Download artifacts
+        run: |
+          curl -L https://api.cirrus-ci.com/v1/artifact/github/${{ github.repository }}/macos_arm64_wheel/wheels.zip -o wheels.zip
+          unzip wheels.zip
+
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: ./wheelhouse/*.whl
+          if-no-files-found: error
+
   wheels_macos:
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -81,6 +103,28 @@ jobs:
         with:
           name: wheels
           path: ./wheelhouse/*.whl
+
+  wheels_macos_arm:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Waiting for Cirrus CI
+        uses: lewagon/wait-on-check-action@v1.3.1
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'cirrus_macos_arm64_wheel'
+          wait-interval: 60
+
+      - name: Download artifacts
+        run: |
+          curl -L https://api.cirrus-ci.com/v1/artifact/github/${{ github.repository }}/macos_arm64_wheel/wheels.zip -o wheels.zip
+          unzip wheels.zip
+
+      - name: Upload built wheels
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheels
+          path: ./wheelhouse/*.whl
+          if-no-files-found: error
 
   wheels_windows:
     name: ${{ matrix.os }} - ${{ matrix.platform }}

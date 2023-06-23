@@ -1,4 +1,4 @@
-macos_arm64_wheel_task:
+cirrus_macos_arm64_wheel_task:
   macos_instance:
     image: ghcr.io/cirruslabs/macos-monterey-xcode
   matrix:
@@ -16,7 +16,7 @@ macos_arm64_wheel_task:
   wheels_artifacts:
     path: "wheelhouse/*"
 
-linux_arm64_wheel_task:
+cirrus_linux_arm64_wheel_task:
   compute_engine_instance:
     image_project: cirrus-images
     image: family/docker-builder-arm64
@@ -40,25 +40,3 @@ linux_arm64_wheel_task:
 
   wheels_artifacts:
     path: "wheelhouse/*"
-
-wheels_upload_task:
-  depends_on:
-    - macos_arm64_wheel
-    - linux_arm64_wheel
-  container:
-    image: continuumio/miniconda3:22.11.1
-  # Artifacts are not uploaded on PRs
-  only_if: $CIRRUS_PR == ""
-  upload_script: |
-    conda install curl unzip -y
-
-    if [[ "$CIRRUS_CRON" == "nightly" ]]; then
-      export GITHUB_EVENT_NAME="schedule"
-    fi
-
-    # Download and show wheels
-    curl https://api.cirrus-ci.com/v1/artifact/build/$CIRRUS_BUILD_ID/wheels.zip --output wheels.zip
-    unzip wheels.zip
-    ls wheelhouse
-
-    bash build_tools/github/upload_anaconda.sh
