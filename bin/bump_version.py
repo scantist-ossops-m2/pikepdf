@@ -20,7 +20,7 @@ import pikepdf
 config = [
     # file path, version find/replace format
     ("src/pikepdf/__init__.py", '__version__ = "{}"'),
-    ("pyproject.toml", "version = {}"),
+    ("pyproject.toml", 'version = "{}"'),
 ]
 
 RED = "\u001b[31m"
@@ -29,6 +29,7 @@ OFF = "\u001b[0m"
 
 
 def bump_version() -> None:
+    """Bump the version number in all the right places."""
     current_version = pikepdf.__version__
 
     try:
